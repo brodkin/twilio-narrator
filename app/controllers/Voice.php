@@ -3,17 +3,33 @@
 class Voice extends BaseController
 {
     /**
-     * Display a listing of the resource.
+     * Return Main Menu TwiML
      *
-     * @return Response
+     * @return void
      */
-    public function index($position)
+    public function start()
     {
         $sid = Input::get('AccountSid');
         $incoming = Input::get('To');
 
         $response = new Services_Twilio_Twiml();
         $response->say('Hello, your sid is '.$sid);
+        $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
+        print $response;
+    }
+
+    /**
+     * Return Content TwiML
+     *
+     * @return void
+     */
+    public function content($position)
+    {
+        $sid = Input::get('AccountSid');
+        $incoming = Input::get('To');
+
+        $response = new Services_Twilio_Twiml();
+        $response->say('This is content.');
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
         print $response;
     }

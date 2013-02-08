@@ -15,4 +15,8 @@ Route::get('/', function() {
     return View::make('hello');
 });
 
-Route::any('voice/{position}', 'Voice@index');
+Route::any('voice', 'Voice@start');
+
+Route::any('voice/content/{position}', 'Voice@content');
+
+Route::any('voice/menu/{position}', 'Voice@menu');
