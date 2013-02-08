@@ -3,11 +3,6 @@ global:
     - LARAVEL_ENV: production
 
 web1:
-  php_extensions:
-    - bz2
-    - curl
-    - rar
-    - zip
   before_deploy:
     - "php artisan migrate:install"
 
