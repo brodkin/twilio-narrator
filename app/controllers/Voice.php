@@ -13,7 +13,7 @@ class Voice extends BaseController
         $incoming = Input::get('To');
 
         $response = new Services_Twilio_Twiml();
-        $response->say('Hello, your sid is '.$sid);
+        $response->say('This is the main menu for SID '.$sid);
         $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
         print $response;
     }
