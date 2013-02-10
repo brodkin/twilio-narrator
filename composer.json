@@ -1,7 +1,8 @@
 {
 	"require": {
 		"laravel/framework": "4.0.*",
-        "twilio/sdk": "3.10.*"
+        "twilio/sdk": "3.10.*",
+        "dflydev/markdown": "1.0.*"
 	},
 	"autoload": {
 		"classmap": [
