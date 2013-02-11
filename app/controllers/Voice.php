@@ -276,6 +276,11 @@ class Voice extends BaseController
 
         $end_pos = strpos($content_partial, '<h', 4);
 
+        // If no more headings, go until end of doc
+        if (!$end_pos) {
+            $end_pos = strlen($content_partial);
+        }
+
         $content_src = substr($content_partial, 0, $end_pos);
 
         $content = new DOMDocument();
