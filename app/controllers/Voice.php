@@ -63,8 +63,8 @@ class Voice extends BaseController
     public function start()
     {
         $response = new Services_Twilio_Twiml();
+        $response->play('/intro.mp3');
         $response->say('You have reached narrator, a PHP-based markdown document reader for Twilio.');
-        $response->play('https://api.twilio.com/cowbell.mp3');
         $response->say('Press # to skip to the menu at any time.');
         $response->redirect('/voice/content/'.$this->_getDocTitle());
         print $response;
@@ -87,19 +87,20 @@ class Voice extends BaseController
         $param_a = func_get_args();
         $content = $this->_getContent(count($param_a), end($param_a));
 
+        $redirect_url = '/voice/menu/'.implode('/', $param_a);
+
         $response = new Services_Twilio_Twiml();
+        $response->play('/start.mp3');
         $gather = $response->gather(
             array(
-                'action' => Request::url(),
+                'action' => $redirect_url,
                 'method' => 'POST',
-                'numDigits' => 2
+                'numDigits' => 1
             )
         );
         $gather->say($content);
-        $response->play('https://api.twilio.com/cowbell.mp3');
-
-        $url = '/voice/menu/'.implode('/', $param_a);
-        $response->redirect($url);
+        $response->play('/end.mp3');
+        $response->redirect($redirect_url);
 
         print $response;
     }
