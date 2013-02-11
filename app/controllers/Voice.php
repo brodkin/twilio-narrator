@@ -160,8 +160,14 @@ class Voice extends BaseController
         } else {
             // Error
             $response->say('This section has no further options.');
-            $response->say('Returning to previous menu.');
-            $response->redirect('..');
+
+            if ($h2 === false) {
+                $response->say('Returning to main menu.');
+                $response->redirect('/voice');
+            } else {
+                $response->say('Returning to previous menu.');
+                $response->redirect('..');
+            }
         }
         $response->redirect('/voice');
         print $response;
