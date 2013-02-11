@@ -206,13 +206,22 @@ class Voice extends BaseController
             }
             $redirect_url.= '/'.rawurlencode($menu_a[$option]);
             $response->redirect($redirect_url);
-        } elseif ($option == '*') {
+        } elseif ($option == '*' && $h2 !== false) {
             $param_a_mod = array_slice($param_a, 0, -1);
+            $redirect_url = '/voice/menu';
+            foreach ($param_a_mod as $segment) {
+                $redirect_url.= '/'.rawurlencode($segment);
+            }
+            $response->say('Previous menu.');
+            $response->redirect($redirect_url);
+        } else {
+            // Invalid Option
             $redirect_url = '/voice/menu';
             foreach ($param_a as $segment) {
                 $redirect_url.= '/'.rawurlencode($segment);
             }
-            $response->say('Previous menu.');
+            $response->say($option.' is not a valid option.');
+            $response->say('Returning to menu.');
             $response->redirect($redirect_url);
         }
         print $response;
