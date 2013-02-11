@@ -90,7 +90,10 @@ class Voice extends BaseController
         $param_a = func_get_args();
         $content = $this->_getContent(count($param_a), end($param_a));
 
-        $redirect_url = '/voice/menu/'.implode('/', $param_a);
+        $redirect_url = '/voice/menu';
+        foreach ($param_a as $segment) {
+            $redirect_url.= '/'.rawurlencode($segment);
+        }
 
         $response = new Services_Twilio_Twiml();
         $response->play('/start.mp3');
@@ -127,11 +130,16 @@ class Voice extends BaseController
 
         $response = new Services_Twilio_Twiml();
 
+        $action_url = '/voice/process';
+        foreach ($param_a as $segment) {
+            $action_url.= '/'.rawurlencode($segment);
+        }
+
         if (count($menu_a) >= 2) {
             // Read Menu
             $gather = $response->gather(
                 array(
-                    'action' => '/voice/process/'.implode('/', $param_a),
+                    'action' => $action_url,
                     'method' => 'POST',
                     'numDigits' => 2
                 )
@@ -183,9 +191,12 @@ class Voice extends BaseController
             return Redirect::to($url);
         } elseif ($option == '*') {
             $param_a_mod = array_slice($param_a, 0, -1);
-            $url = '/voice/menu/'.implode('/', $param_a_mod).'/'.$menu_a[$option];
+            $redirect_url = '/voice/menu';
+            foreach ($param_a as $segment) {
+                $redirect_url.= '/'.rawurlencode($segment);
+            }
             $response->say('Previous menu.');
-            $response->redirect($url);
+            $response->redirect($redirect_url);
         }
         print $response;
     }
