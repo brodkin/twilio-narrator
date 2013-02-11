@@ -151,9 +151,12 @@ class Voice extends BaseController
             $gather->say('To return to the main menu, press pound.');
         } elseif (count($menu_a) === 1) {
             // Redirect to Content
-            $url = '/voice/content/'.implode('/', $param_a).'/'.end($menu_a);
-
-            return Redirect::to($url);
+            $content_url = '/voice/content';
+            foreach ($param_a as $segment) {
+                $content_url.= '/'.rawurlencode($segment);
+            }
+            $content_url.= '/'.rawurlencode(end($menu_a));
+            $response->redirect($content_url);
         } else {
             // Error
             $response->say('This section has no further options.');
@@ -186,9 +189,12 @@ class Voice extends BaseController
         $response = new Services_Twilio_Twiml();
 
         if (isset($menu_a[$option])) {
-            $url = '/voice/content/'.implode('/', $param_a).'/'.$menu_a[$option];
-
-            return Redirect::to($url);
+            $redirect_url = '/voice/content';
+            foreach ($param_a as $segment) {
+                $redirect_url.= '/'.rawurlencode($segment);
+            }
+            $redirect_url.= '/'.rawurlencode($menu_a[$option]);
+            $response->redirect($redirect_url);
         } elseif ($option == '*') {
             $param_a_mod = array_slice($param_a, 0, -1);
             $redirect_url = '/voice/menu';
