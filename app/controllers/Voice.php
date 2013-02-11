@@ -104,7 +104,7 @@ class Voice extends BaseController
                 'numDigits' => 1
             )
         );
-        $gather->say($content);
+        $gather->say(trim($content));
         $response->play('/end.mp3');
         $response->redirect($redirect_url);
 
