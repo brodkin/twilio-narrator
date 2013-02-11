@@ -66,7 +66,10 @@ class Voice extends BaseController
         $response->play('/intro.mp3');
         $response->say('You have reached narrator, a PHP-based markdown document reader for Twilio.');
         $response->say('Press # to skip to the menu at any time.');
-        $response->redirect('/voice/content/'.$this->_getDocTitle());
+
+        $redirect_url = '/voice/content/'.rawurlencode($this->_getDocTitle());
+
+        $response->redirect($redirect_url);
         print $response;
     }
 
