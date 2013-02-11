@@ -144,7 +144,9 @@ class Voice extends BaseController
                     'numDigits' => 2
                 )
             );
-            $gather->say('To return to the previous menu, press star.');
+            if ($h2 !== false) {
+                $gather->say('To return to the previous menu, press star.');
+            }
             foreach ($menu_a as $key => $option) {
                 $gather->say('For '.$option.', press '.$key.'.');
             }
