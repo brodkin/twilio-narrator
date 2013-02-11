@@ -158,15 +158,18 @@ class Voice extends BaseController
             $content_url.= '/'.rawurlencode(end($menu_a));
             $response->redirect($content_url);
         } else {
-            // Error
+            // Dead End
             $response->say('This section has no further options.');
 
             if ($h2 === false) {
                 $response->say('Returning to main menu.');
-                $response->redirect('/voice');
             } else {
+                $redirect_url = '/voice/menu';
+                foreach (array_slice($param_a, 0, -1) as $segment) {
+                    $redirect_url.= '/'.rawurlencode($segment);
+                }
                 $response->say('Returning to previous menu.');
-                $response->redirect('..');
+                $response->redirect($redirect_url);
             }
         }
         $response->redirect('/voice');
